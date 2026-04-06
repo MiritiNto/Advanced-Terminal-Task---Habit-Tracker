@@ -20,3 +20,10 @@ def complete_task(task_id):
         cursor.execute("UPDATE tasks SET status = 'done' WHERE id = ?", (task_id,))
         conn.commit()
     print(f"Task {task_id} marked as done.")
+
+def delete_task(task_id):
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+        conn.commit()
+    print(f"Task {task_id} deleted.")
