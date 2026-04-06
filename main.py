@@ -1,6 +1,6 @@
 import argparse
 from db import init_db
-from tasks import add_task, list_tasks, complete_task
+from tasks import add_task, list_tasks, complete_task, delete_task
 
 def main():
     init_db()
@@ -15,6 +15,9 @@ def main():
     parser_done = subparsers.add_parser("done", help="Complete a task")
     parser_done.add_argument("id", type=int, help="Task ID")
     
+    parser_delete = subparsers.add_parser("delete", help="Delete a task")
+    parser_delete.add_argument("id", type=int, help="Task ID")
+    
     args = parser.parse_args()
     
     if args.command == "add":
@@ -23,6 +26,8 @@ def main():
         list_tasks()
     elif args.command == "done":
         complete_task(args.id)
+    elif args.command == "delete":
+        delete_task(args.id)
     elif not args.command:
         parser.print_help()
 
