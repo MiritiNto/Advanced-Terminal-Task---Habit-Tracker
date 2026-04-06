@@ -13,3 +13,10 @@ def list_tasks():
         cursor.execute("SELECT id, title, status FROM tasks")
         for row in cursor.fetchall():
             print(f"[{row[0]}] {row[1]} - {row[2].upper()}")
+
+def complete_task(task_id):
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("UPDATE tasks SET status = 'done' WHERE id = ?", (task_id,))
+        conn.commit()
+    print(f"Task {task_id} marked as done.")
