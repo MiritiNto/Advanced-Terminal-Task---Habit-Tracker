@@ -22,4 +22,12 @@ def init_db():
                 name TEXT NOT NULL UNIQUE
             )
         ''')
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS habit_logs (
+                habit_id INTEGER,
+                log_date DATE DEFAULT CURRENT_DATE,
+                PRIMARY KEY (habit_id, log_date),
+                FOREIGN KEY (habit_id) REFERENCES habits(id)
+            )
+        ''')
         conn.commit()
