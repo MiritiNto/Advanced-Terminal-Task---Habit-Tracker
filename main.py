@@ -9,6 +9,7 @@ def main():
     
     parser_add = subparsers.add_parser("add", help="Add a new task")
     parser_add.add_argument("title", type=str, help="Task title")
+    parser_add.add_argument("--priority", type=int, choices=[1,2,3], default=3, help="Priority (1=High, 3=Low)")
     
     parser_list = subparsers.add_parser("list", help="List all tasks")
     
@@ -21,7 +22,7 @@ def main():
     args = parser.parse_args()
     
     if args.command == "add":
-        add_task(args.title)
+        add_task(args.title, args.priority)
     elif args.command == "list":
         list_tasks()
     elif args.command == "done":
