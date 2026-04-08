@@ -16,4 +16,10 @@ def init_db():
                 priority INTEGER DEFAULT 3
             )
         ''')
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS habits (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL UNIQUE
+            )
+        ''')
         conn.commit()
