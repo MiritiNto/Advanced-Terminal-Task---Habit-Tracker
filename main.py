@@ -1,8 +1,8 @@
 import argparse
 from db import init_db
-from tasks import add_task, list_tasks, complete_task, delete_task
+from tasks import add_task, list_tasks, complete_task, delete_task, search_tasks
 from habits import create_habit, log_habit, list_habits
-from utils import export_tasks_csv
+from utils import export_tasks_csv, export_tasks_json
 
 def main():
     init_db()
@@ -21,6 +21,9 @@ def main():
     parser_delete = subparsers.add_parser("delete")
     parser_delete.add_argument("id", type=int)
     
+    parser_search = subparsers.add_parser("search")
+    parser_search.add_argument("query", type=str)
+    
     parser_habit = subparsers.add_parser("habit")
     parser_habit.add_argument("name", type=str)
     
@@ -29,6 +32,7 @@ def main():
     
     subparsers.add_parser("habits")
     subparsers.add_parser("export-csv")
+    subparsers.add_parser("export-json")
     
     args = parser.parse_args()
     
@@ -36,10 +40,12 @@ def main():
     elif args.command == "list": list_tasks()
     elif args.command == "done": complete_task(args.id)
     elif args.command == "delete": delete_task(args.id)
+    elif args.command == "search": search_tasks(args.query)
     elif args.command == "habit": create_habit(args.name)
     elif args.command == "log": log_habit(args.id)
     elif args.command == "habits": list_habits()
     elif args.command == "export-csv": export_tasks_csv()
+    elif args.command == "export-json": export_tasks_json()
     elif not args.command: parser.print_help()
 
 if __name__ == "__main__":
