@@ -13,7 +13,8 @@ def init_db():
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL,
                 status TEXT DEFAULT 'pending',
-                priority INTEGER DEFAULT 3
+                priority INTEGER DEFAULT 3,
+                due_date DATE
             )
         ''')
         cursor.execute('''
