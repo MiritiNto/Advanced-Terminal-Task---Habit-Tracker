@@ -1,4 +1,5 @@
 from db import get_connection
+import datetime
 
 def add_task(title, priority=3):
     with get_connection() as conn:
@@ -15,9 +16,10 @@ def list_tasks():
             print(f"[{row[0]}] {row[1]} - {row[2].upper()} (P{row[3]})")
 
 def complete_task(task_id):
+    date_str = datetime.date.today().isoformat()
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute("UPDATE tasks SET status = 'done' WHERE id = ?", (task_id,))
+        cursor.execute("UPDATE tasks SET status = 'done', title = title || ' [Done ' || ? || ']' WHERE id = ?", (date_str, task_id,))
         conn.commit()
     print(f"Task {task_id} marked as done.")
 
@@ -33,7 +35,5 @@ def search_tasks(query):
         cursor = conn.cursor()
         cursor.execute("SELECT id, title, status FROM tasks WHERE title LIKE ?", (f'%{query}%',))
         results = cursor.fetchall()
-        if not results:
-            print("No tasks found.")
-        for row in results:
-            print(f"[{row[0]}] {row[1]} - {row[2].upper()}")
+        if not results: print("No tasks found.")
+        for row in results: print(f"[{row[0]}] {row[1]} - {row[2].upper()}")
