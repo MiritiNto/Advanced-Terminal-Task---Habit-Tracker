@@ -27,3 +27,13 @@ def delete_task(task_id):
         cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
         conn.commit()
     print(f"Task {task_id} deleted.")
+
+def search_tasks(query):
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, title, status FROM tasks WHERE title LIKE ?", (f'%{query}%',))
+        results = cursor.fetchall()
+        if not results:
+            print("No tasks found.")
+        for row in results:
+            print(f"[{row[0]}] {row[1]} - {row[2].upper()}")
